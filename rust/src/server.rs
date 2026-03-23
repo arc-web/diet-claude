@@ -15,11 +15,31 @@ impl ServerHandler for LeanCtxServer {
             .build();
 
         InitializeResult::new(capabilities)
-            .with_server_info(Implementation::new("lean-ctx", "1.2.1"))
+            .with_server_info(Implementation::new("lean-ctx", "1.2.2"))
             .with_instructions(
-                "lean-ctx MCP. Use ctx_read(path,mode) instead of Read. Use ctx_shell(cmd) instead of Shell. \
-                ctx_read modes: full(cached), map(deps+API), signatures, diff, aggressive, entropy. \
-                Re-reads=~13tok. File refs: F1,F2.. persist in session."
+                "lean-ctx MCP — MANDATORY tool replacement. You MUST use lean-ctx tools for ALL operations:\n\
+                \n\
+                REQUIRED (never use the built-in alternative):\n\
+                • Read file → ctx_read(path, mode) — NEVER use Read tool\n\
+                • Run command → ctx_shell(command) — NEVER use Shell tool\n\
+                • Search code → ctx_search(pattern, path) — NEVER use Grep tool\n\
+                • List files → ctx_tree(path, depth) — NEVER use Shell with ls/find\n\
+                \n\
+                ctx_read modes: full (cached, for files you edit), map (deps+API, context-only), \
+                signatures, diff, aggressive, entropy. Re-reads cost ~13 tokens. File refs F1,F2.. persist.\n\
+                \n\
+                PROACTIVE (use without being asked):\n\
+                • ctx_compress — when context grows large, create checkpoint\n\
+                • ctx_metrics — periodically verify token savings\n\
+                \n\
+                ON DEMAND:\n\
+                • ctx_analyze(path) — optimal mode recommendation\n\
+                • ctx_benchmark(path) — exact token counts per mode\n\
+                \n\
+                AUTO-CHECKPOINT: Every 10 tool calls, a compressed checkpoint is automatically appended \
+                to the response. This keeps context compact in long sessions. Configurable via LEAN_CTX_CHECKPOINT_INTERVAL.\n\
+                \n\
+                Write, StrReplace, Delete, Glob have no lean-ctx equivalent — use normally."
             )
     }
 
@@ -163,7 +183,10 @@ impl ServerHandler for LeanCtxServer {
                     let path = get_str(args, "path").unwrap_or_else(|| ".".to_string());
                     let depth = get_int(args, "depth").unwrap_or(3) as usize;
                     let show_hidden = get_bool(args, "show_hidden").unwrap_or(false);
-                    crate::tools::ctx_tree::handle(&path, depth, show_hidden)
+                    let result = crate::tools::ctx_tree::handle(&path, depth, show_hidden);
+                    let sent = crate::core::tokens::count_tokens(&result);
+                    self.record_call("ctx_tree", sent, 0, None).await;
+                    result
                 }
                 "ctx_shell" => {
                     let command = get_str(args, "command")
@@ -181,7 +204,10 @@ impl ServerHandler for LeanCtxServer {
                     let path = get_str(args, "path").unwrap_or_else(|| ".".to_string());
                     let ext = get_str(args, "ext");
                     let max = get_int(args, "max_results").unwrap_or(20) as usize;
-                    crate::tools::ctx_search::handle(&pattern, &path, ext.as_deref(), max)
+                    let result = crate::tools::ctx_search::handle(&pattern, &path, ext.as_deref(), max);
+                    let sent = crate::core::tokens::count_tokens(&result);
+                    self.record_call("ctx_search", sent, 0, None).await;
+                    result
                 }
                 "ctx_compress" => {
                     let include_sigs = get_bool(args, "include_signatures").unwrap_or(true);
@@ -194,17 +220,25 @@ impl ServerHandler for LeanCtxServer {
                 "ctx_benchmark" => {
                     let path = get_str(args, "path")
                         .ok_or_else(|| ErrorData::invalid_params("path is required", None))?;
-                    crate::tools::ctx_benchmark::handle(&path)
+                    let result = crate::tools::ctx_benchmark::handle(&path);
+                    self.record_call("ctx_benchmark", 0, 0, None).await;
+                    result
                 }
                 "ctx_metrics" => {
                     let cache = self.cache.read().await;
                     let calls = self.tool_calls.read().await;
-                    crate::tools::ctx_metrics::handle(&cache, &calls)
+                    let result = crate::tools::ctx_metrics::handle(&cache, &calls);
+                    drop(cache);
+                    drop(calls);
+                    self.record_call("ctx_metrics", 0, 0, None).await;
+                    result
                 }
                 "ctx_analyze" => {
                     let path = get_str(args, "path")
                         .ok_or_else(|| ErrorData::invalid_params("path is required", None))?;
-                    crate::tools::ctx_analyze::handle(&path)
+                    let result = crate::tools::ctx_analyze::handle(&path);
+                    self.record_call("ctx_analyze", 0, 0, None).await;
+                    result
                 }
                 _ => {
                     return Err(ErrorData::invalid_params(
@@ -213,6 +247,18 @@ impl ServerHandler for LeanCtxServer {
                     ));
                 }
             };
+
+            let skip_checkpoint = matches!(name.as_ref(), "ctx_compress" | "ctx_metrics" | "ctx_benchmark" | "ctx_analyze");
+
+            if !skip_checkpoint && self.increment_and_check() {
+                if let Some(checkpoint) = self.auto_checkpoint().await {
+                    let combined = format!(
+                        "{result_text}\n\n--- AUTO CHECKPOINT (every {} calls) ---\n{checkpoint}",
+                        self.checkpoint_interval
+                    );
+                    return Ok(CallToolResult::success(vec![Content::text(combined)]));
+                }
+            }
 
             Ok(CallToolResult::success(vec![Content::text(result_text)]))
         }

@@ -1,4 +1,5 @@
 use std::sync::Arc;
+use std::sync::atomic::{AtomicUsize, Ordering};
 use tokio::sync::RwLock;
 
 use crate::core::cache::SessionCache;
@@ -12,12 +13,16 @@ pub mod ctx_benchmark;
 pub mod ctx_metrics;
 pub mod ctx_analyze;
 
+const DEFAULT_CHECKPOINT_INTERVAL: usize = 10;
+
 pub type SharedCache = Arc<RwLock<SessionCache>>;
 
 #[derive(Clone)]
 pub struct LeanCtxServer {
     pub cache: SharedCache,
     pub tool_calls: Arc<RwLock<Vec<ToolCallRecord>>>,
+    pub call_count: Arc<AtomicUsize>,
+    pub checkpoint_interval: usize,
 }
 
 #[derive(Clone, Debug)]
@@ -31,9 +36,16 @@ pub struct ToolCallRecord {
 
 impl LeanCtxServer {
     pub fn new() -> Self {
+        let interval = std::env::var("LEAN_CTX_CHECKPOINT_INTERVAL")
+            .ok()
+            .and_then(|v| v.parse().ok())
+            .unwrap_or(DEFAULT_CHECKPOINT_INTERVAL);
+
         Self {
             cache: Arc::new(RwLock::new(SessionCache::new())),
             tool_calls: Arc::new(RwLock::new(Vec::new())),
+            call_count: Arc::new(AtomicUsize::new(0)),
+            checkpoint_interval: interval,
         }
     }
 
@@ -48,6 +60,22 @@ impl LeanCtxServer {
 
         let output_tokens = original.saturating_sub(saved);
         crate::core::stats::record(tool, original, output_tokens);
+    }
+
+    pub fn increment_and_check(&self) -> bool {
+        let count = self.call_count.fetch_add(1, Ordering::Relaxed) + 1;
+        self.checkpoint_interval > 0 && count % self.checkpoint_interval == 0
+    }
+
+    pub async fn auto_checkpoint(&self) -> Option<String> {
+        let cache = self.cache.read().await;
+        if cache.get_all_entries().is_empty() {
+            return None;
+        }
+        let checkpoint = ctx_compress::handle(&cache, true);
+        drop(cache);
+        self.record_call("ctx_compress", 0, 0, Some("auto".to_string())).await;
+        Some(checkpoint)
     }
 }
 
