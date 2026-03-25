@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](rust/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white)](https://discord.gg/pTHkG9Hew9)
 
-[Website](https://leanctx.com) · [Install](#installation) · [Quick Start](#quick-start) · [CLI Reference](#cli-commands) · [MCP Tools](#10-mcp-tools) · [TDD](#token-dense-dialect-tdd) · [Dashboard](#persistent-stats--web-dashboard) · [Editor Setup](#editor-configuration) · [vs RTK](#lean-ctx-vs-rtk) · [Discord](https://discord.gg/pTHkG9Hew9)
+[Website](https://leanctx.com) · [Install](#installation) · [Quick Start](#quick-start) · [CLI Reference](#cli-commands) · [MCP Tools](#10-mcp-tools) · [TDD](#token-dense-dialect-tdd) · [Dashboard](#persistent-stats--web-dashboard) · [Editor Setup](#editor-configuration) · [vs RTK](#lean-ctx-vs-rtk) · [Discord](https://discord.gg/pTHkG9Hew9) · **[Claude Code One-Shot Setup](CLAUDE_CODE_SETUP.md)**
 
 ---
 
