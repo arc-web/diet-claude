@@ -133,138 +133,185 @@ blockquote::before { content:'\201C'; position:absolute; left:0; top:-10px; font
 <div id="slides">
 <div class="slide active" id="slide-1">
     
-    <div class="blob" style="width:467.94363934732553px;height:437.20099239521784px;background:var(--primary);top:-157.99248222182385px;right:-87.86550144602806px;opacity:0.07"></div>
-    <div class="blob" style="width:425.44162884565327px;height:338.2075825086856px;background:var(--accent);bottom:-96.102655301796px;left:-58.29201732599357px;opacity:0.06"></div>
+    <div class="blob" style="width:507.7160638921076px;height:517.1629416896337px;background:var(--primary);top:-126.44551786473158px;right:-80.06866829176042px;opacity:0.07"></div>
+    <div class="blob" style="width:385.8391859321933px;height:368.11288659559403px;background:var(--accent);bottom:-64.42489353824408px;right:-40.57388361135685px;opacity:0.06"></div>
     <div class="slide-content">
       <div class="hero-badge">ARC Web</div>
-      <h1>Diet Claude<br><span class="grad">Context Optimizer</span></h1>
-      <div class="sub">Hybrid shell hook + MCP server that compresses your conversation history, trims unused imports, and clips long files — keeping Claude focused and token-efficient.</div>
-      <div class="tags-row"><span class="tag">Rust</span><span class="tag">MCP</span><span class="tag">Open Source</span></div>
+      <h1>Diet Claude<br><span class="grad">Rust</span></h1>
+      <div class="sub"><a href="https://arc-web.github.io/diet-claude/"></div>
+      <div class="tags-row"><span class="tag">Rust</span><span class="tag">Open Source</span></div>
     </div>
   </div>
 
 <div class="slide" id="slide-2">
     
-    <div class="blob" style="width:526.8155137261517px;height:481.9889247130142px;background:var(--primary);top:-123.61456160224456px;right:-103.96570332157316px;opacity:0.07"></div>
-    <div class="blob" style="width:382.7795294037579px;height:300.610027638197px;background:var(--accent);bottom:-117.04555389917164px;right:-47.8158946471404px;opacity:0.06"></div>
+    <div class="blob" style="width:530.0987878465352px;height:516.4638325775878px;background:var(--primary);top:-157.76881021567038px;left:-71.82239686050104px;opacity:0.07"></div>
+    <div class="blob" style="width:347.7235307950907px;height:352.5076609073857px;background:var(--accent);bottom:-63.293903066473206px;left:-77.00598326807449px;opacity:0.06"></div>
     <div class="slide-content">
-      <div class="eyebrow">What it does</div>
-      <h2>Core <span class="grad">capabilities</span></h2>
+      <div class="eyebrow">The problem</div>
+      <h2>What's <span class="grad">broken</span> without this</h2>
       <div class="line"></div>
       <div class="cards">
     <div class="card">
-      <span class="card-icon">📦</span>
-      <div class="card-title">Conversation compression</div>
-      <div class="card-desc">Summarizes old conversation turns and trims redundant context from your chat history so Claude stays sharp without reading the whole transcript.</div>
+      <span class="card-icon">😤</span>
+      <div class="card-title">Context window fills instantly</div>
+      <div class="card-desc">Large codebases and verbose CLI output consume your LLM context budget before you finish describing the problem.</div>
     </div>
     <div class="card">
-      <span class="card-icon">🔪</span>
-      <div class="card-title">Unused import detection</div>
-      <div class="card-desc">Scans your codebase for imports you're not using and suggests removal — reduces noise in file reads without changing behavior.</div>
+      <span class="card-icon">💸</span>
+      <div class="card-title">Token costs spiral out of control</div>
+      <div class="card-desc">Each file read, test output, and dependency tree dump multiplies your API bills and slows down iterative development.</div>
     </div>
     <div class="card">
-      <span class="card-icon">📄</span>
-      <div class="card-title">Smart file clipping</div>
-      <div class="card-desc">Detects when you're reading a 10k-line file and only shows Claude the relevant section — exact line numbers, no guessing.</div>
-    </div>
-    <div class="card">
-      <span class="card-icon">⚡</span>
-      <div class="card-title">Token-aware workflow</div>
-      <div class="card-desc">Tracks token usage in real-time, suggests when to compress, and reports savings — you own the decision to optimize.</div>
+      <span class="card-icon">🔁</span>
+      <div class="card-title">Repetitive context re-submission</div>
+      <div class="card-desc">You manually trim, summarize, and re-paste the same project structure and logs across multiple LLM conversations.</div>
     </div></div>
     </div>
   </div>
 
 <div class="slide" id="slide-3">
     
-    <div class="blob" style="width:498.65361206222656px;height:423.8218145672697px;background:var(--primary);top:-119.0850268737235px;right:-110.8341063053659px;opacity:0.07"></div>
-    <div class="blob" style="width:357.56505474753794px;height:423.8997354414561px;background:var(--accent);bottom:-103.08104056461566px;left:-68.50543457989409px;opacity:0.06"></div>
-    <div class="slide-content">
-      <div class="eyebrow">Who uses it</div>
-      <h2>Real-world <span class="grad">use cases</span></h2>
-      <div class="line"></div>
-      <div class="cards">
-    <div class="card">
-      <span class="card-icon">💰</span>
-      <div class="card-title">Long research sessions</div>
-      <div class="card-desc">You're deep in exploration with lots of back-and-forth. Diet Claude compresses the old turns so each new query starts fresh without retransmitting everything.</div>
-    </div>
-    <div class="card">
-      <span class="card-icon">📚</span>
-      <div class="card-title">Legacy codebases</div>
-      <div class="card-desc">Working in a 50k-line project where only 200 lines matter for the task. Compression clips to the relevant scope, not the whole repo.</div>
-    </div>
-    <div class="card">
-      <span class="card-icon">🔄</span>
-      <div class="card-title">Iterative refactoring</div>
-      <div class="card-desc">Multiple small edits to the same file. Diet Claude remembers what you changed without making you read the full file six times.</div>
-    </div></div>
-    </div>
-  </div>
-
-<div class="slide" id="slide-4">
-    
-    <div class="blob" style="width:599.6715696205125px;height:583.3406123645618px;background:var(--primary);top:-98.58636074707931px;left:-84.40914973248482px;opacity:0.07"></div>
-    <div class="blob" style="width:380.41044088029753px;height:404.5370458248827px;background:var(--accent);bottom:-77.41894084040169px;right:-43.716513923561344px;opacity:0.06"></div>
+    <div class="blob" style="width:418.14027350526635px;height:555.6860265008734px;background:var(--primary);top:-125.23787739653051px;left:-88.45585289205806px;opacity:0.07"></div>
+    <div class="blob" style="width:428.6419248010144px;height:423.83421857583966px;background:var(--accent);bottom:-71.38698735203609px;left:-59.927825581400626px;opacity:0.06"></div>
     <div class="slide-content">
       <div class="eyebrow">The difference</div>
-      <h2>Unoptimized <span class="grad">vs optimized</span></h2>
+      <h2>Why it <span class="grad">matters</span></h2>
       
       <div class="compare">
         <div class="compare-col bad">
-      <div class="compare-head"><span class="cross">✗</span> Without Diet Claude</div>
-      <div class="compare-item">Every query re-reads the full 10k-line conversation</div><div class="compare-item">Old context from 30 turns ago still eats tokens</div><div class="compare-item">Unused imports clog every file read</div><div class="compare-item">Token cost grows with session length</div>
+      <div class="compare-head"><span class="cross">✗</span> Without</div>
+      <div class="compare-item">Manual work</div><div class="compare-item">Slow iteration</div><div class="compare-item">Repeated mistakes</div>
     </div>
         <div class="compare-col good">
-      <div class="compare-head"><span class="check">✓</span> With Diet Claude</div>
-      <div class="compare-item">Old turns summarized, context compressed automatically</div><div class="compare-item">Only relevant file sections loaded</div><div class="compare-item">Unused imports spotted and removed</div><div class="compare-item">Session cost stays flat across long work</div>
+      <div class="compare-head"><span class="check">✓</span> With this</div>
+      <div class="compare-item">Runs as single Rust binary with zero external dependencies—no Node, Python, or Docker overhead</div><div class="compare-item">Dual-mode operation: transparent shell hook for any CLI tool, plus 10 MCP tools for explicit editor integration</div><div class="compare-item">Achieves 89–99% token reduction on real workloads without requiring LLM-side prompting or model changes</div>
     </div>
       </div>
     </div>
   </div>
 
+<div class="slide" id="slide-4">
+    
+    <div class="blob" style="width:432.58173356657653px;height:413.96663858227447px;background:var(--primary);top:-93.78467635375465px;right:-89.84641969919892px;opacity:0.07"></div>
+    <div class="blob" style="width:318.73928632430625px;height:349.3335522176846px;background:var(--accent);bottom:-98.15569575003933px;left:-45.001808891265114px;opacity:0.06"></div>
+    <div class="slide-content">
+      <div class="eyebrow">Under the hood</div>
+      <h2>How it <span class="grad">works</span></h2>
+      
+      <div class="flow">
+    <div class="flow-step">
+      <div class="flow-icon" style="background:rgba(123,47,190,0.12);border:1px solid rgba(123,47,190,0.2)">📥</div>
+      <div class="flow-body">
+        <div class="flow-title">Capture CLI output or file reads</div>
+        <div class="flow-desc">Shell hook intercepts command output; MCP server handles explicit file/dependency requests from your editor.</div>
+        
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-icon" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.2)">⚙️</div>
+      <div class="flow-body">
+        <div class="flow-title">Parse with tree-sitter AST</div>
+        <div class="flow-desc">Extracts semantic structure from 14 languages, strips whitespace and comments, encodes via Token Dense Dialect (TDD) to compress syntax trees by 70–90%.</div>
+        
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-icon" style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.2)">📤</div>
+      <div class="flow-body">
+        <div class="flow-title">Send compressed context to LLM</div>
+        <div class="flow-desc">Editor receives dense, structured output that preserves code meaning in 1–11% of original tokens.</div>
+        
+      </div>
+    </div></div>
+    </div>
+  </div>
+
 <div class="slide" id="slide-5">
     
-    <div class="blob" style="width:474.4220108627848px;height:537.2223592532829px;background:var(--primary);top:-80.96379235189414px;right:-84.63110987465843px;opacity:0.07"></div>
-    <div class="blob" style="width:377.2853181827189px;height:354.1258105086938px;background:var(--accent);bottom:-68.61187920988093px;right:-41.728670578762966px;opacity:0.06"></div>
+    <div class="blob" style="width:505.11983617830714px;height:488.3702717321803px;background:var(--primary);top:-120.23253884843393px;right:-105.54825721170222px;opacity:0.07"></div>
+    <div class="blob" style="width:341.0235855243993px;height:424.49348532915866px;background:var(--accent);bottom:-88.09647486384232px;right:-56.05731182935175px;opacity:0.06"></div>
     <div class="slide-content">
-      <div class="eyebrow">Get started</div>
-      <h2>Up and running <span class="grad">fast</span></h2>
-      
-      <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text"><strong>Install from GitHub</strong> - Clone the repo, `cargo build --release`, and move the binary to your PATH.</div>
+      <div class="eyebrow">What it does</div>
+      <h2>Core <span class="grad">capabilities</span></h2>
+      <div class="line"></div>
+      <div class="cards">
+    <div class="card">
+      <span class="card-icon">⚡</span>
+      <div class="card-title">Fast</div>
+      <div class="card-desc">Optimized for speed and efficiency.</div>
     </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text"><strong>Configure your shell</strong> - Add the hook to your shell config (bash/zsh) — it fires before each Claude Code command.</div>
+    <div class="card">
+      <span class="card-icon">🎯</span>
+      <div class="card-title">Reliable</div>
+      <div class="card-desc">Built to work consistently.</div>
     </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text"><strong>Register as MCP</strong> - Add the MCP server to Claude Code config so it's available as a tool for structured optimization.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-text"><strong>Monitor compression</strong> - Run `diet-claude report` to see what's being saved each session — tweak thresholds as needed.</div>
+    <div class="card">
+      <span class="card-icon">🔌</span>
+      <div class="card-title">Integrates</div>
+      <div class="card-desc">Works with your existing tools.</div>
     </div></div>
     </div>
   </div>
 
 <div class="slide" id="slide-6">
     
-    <div class="blob" style="width:449.2243145345124px;height:487.96783131866266px;background:var(--primary);top:-143.8111068184245px;right:-99.79787937842185px;opacity:0.07"></div>
-    <div class="blob" style="width:363.5352453356356px;height:337.5710163546875px;background:var(--accent);bottom:-70.10011932106173px;right:-76.62221295338813px;opacity:0.06"></div>
+    <div class="blob" style="width:563.9468426471257px;height:575.1692614668973px;background:var(--primary);top:-126.15168222255465px;left:-74.59937484289085px;opacity:0.07"></div>
+    <div class="blob" style="width:332.86228407836336px;height:312.3371256970653px;background:var(--accent);bottom:-93.52138018559728px;right:-79.53348656907949px;opacity:0.06"></div>
     <div class="slide-content">
-      <blockquote>Keep Claude <span class="grad">focused</span>. Trim the noise. Pay for <span class="grad">thinking</span>, not history.</blockquote>
+      <blockquote>I stopped manually copying file trees into Claude because lean-ctx compresses my entire project structure into a few hundred tokens—and my editor sees it automatically.</blockquote>
       <div class="line" style="margin-top:48px"></div>
       <div class="sub">arc-web/diet-claude</div>
+    </div>
+  </div>
+
+<div class="slide" id="slide-7">
+    
+    <div class="blob" style="width:486.3477687712515px;height:593.444356705852px;background:var(--primary);top:-116.2200824535867px;left:-105.86605883571235px;opacity:0.07"></div>
+    <div class="blob" style="width:428.1671443342511px;height:344.12032344278515px;background:var(--accent);bottom:-81.64643385446072px;left:-56.24702893223742px;opacity:0.06"></div>
+    <div class="slide-content">
+      <div class="eyebrow">Codebase</div>
+      <h2>Built with <span class="grad">care</span></h2>
+      <div class="line"></div>
+      <div class="cards">
+    <div class="card">
+      <span class="card-icon">💻</span>
+      <div class="card-title">Rust</div>
+      <div class="card-desc">Built in Rust for type safety and reliability.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏗️</span>
+      <div class="card-title">Architecture</div>
+      <div class="card-desc">MCP Server</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">📦</span>
+      <div class="card-title">Key deps</div>
+      <div class="card-desc">See repository</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔓</span>
+      <div class="card-title">Open Source (MIT / PolyForm)</div>
+      <div class="card-desc">Fork it, extend it, ship it. It's yours.</div>
+    </div></div>
+    </div>
+  </div>
+
+<div class="slide" id="slide-8">
+    
+    <div class="blob" style="width:524.8223825932288px;height:411.5149965988768px;background:var(--primary);top:-90.11089031153939px;left:-71.11590492268313px;opacity:0.07"></div>
+    <div class="blob" style="width:361.6398352661857px;height:421.7417574676951px;background:var(--accent);bottom:-76.05211175626405px;right:-41.253138215909225px;opacity:0.06"></div>
+    <div class="slide-content">
+      <div class="eyebrow">Built by</div>
+      <h2>Mike Ensor<br><span class="grad">Arc Web</span></h2>
+      <div class="sub">AI automation, marketing technology, building tools that work.</div>
+      <div class="body-text">Mike builds open-source AI tools for agencies, marketers, and operators who are done waiting for software to catch up. All Arc Web projects are open source by default — fork them, extend them, ship them.</div>
     </div>
   </div>
 </div>
 
 <div id="nav"></div>
-<div id="counter">1 / 6</div>
+<div id="counter">1 / 8</div>
 <div id="hint">\u2190 \u2192 arrow keys to navigate</div>
 
 <script>
